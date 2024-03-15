@@ -44,8 +44,8 @@ function displayGallery(parametregallerie, elmn) {
 
     elmn.innerHTML = '';
     // elmn le contenu de l'élément HTML
-    for (let i = 0; i < parametregallerie.length - 1; i++) {
-        // Parcours des éléments de la galerie (sauf le dernier que j'afficherai plus tard, d'où le -1)
+    for (let i = 0; i < parametregallerie.length ; i++) {
+        // Parcours des éléments de la galerie 
         let fig = document.createElement('figure');
         // Création d'un élément 'figure' pour chaque élément de la galerie
         let img = document.createElement('img');
