@@ -13,8 +13,6 @@ const elemGallery = document.querySelector(".gallery");
 const filtres = document.getElementById('filtres');
 // Sélection de l'élément HTML représentant les filtres
 
-
-
 const ScrollViewProject = document.getElementById('ViewProject');
 // Sélection de l'élément avec l'ID 'ViewProject'
 ScrollViewProject.addEventListener('click', () => {
@@ -43,7 +41,7 @@ function displayGallery(parametregallerie, elmn) {
     // Définition de la fonction displayGallery qui affiche la galerie dans un élément HTML spécifique
 
     elmn.innerHTML = '';
-    // elmn le contenu de l'élément HTML
+    // supprime le contenu de l'élément HTML
     for (let i = 0; i < parametregallerie.length ; i++) {
         // Parcours des éléments de la galerie 
         let fig = document.createElement('figure');
@@ -75,6 +73,7 @@ function displayGallery(parametregallerie, elmn) {
                 await fetch(url + "works/" + idGallerie, {
                     method: "DELETE",
                     // Requête DELETE pour supprimer l'image côté serveur
+                    // 'await' fera en sorte d’attendre que l’opération asynchrone se termine pour reprendre l’exécution du code.
                     headers: {
                         'Accept': '*/*'
                     }
