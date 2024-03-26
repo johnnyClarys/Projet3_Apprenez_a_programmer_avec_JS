@@ -1,13 +1,5 @@
-// ==============================================================================
-// ------------- Constante & Variable --------------
-// ==============================================================================
-
 const form = document.querySelector('form');
 // On récupère le formulaire de connexion dans la page login
-
-// ==============================================================================
-// ------------- Connexion des utilisateurs --------------
-// ==============================================================================
 
 form.addEventListener('submit', async (e) => {
     // Écouteur d'événement sur la soumission du formulaire
