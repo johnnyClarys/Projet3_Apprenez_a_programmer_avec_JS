@@ -153,26 +153,34 @@ demandez-vous :Est-ce que le rendu est conforme à la maquette ? ✔️
 
 2.2
 
-● Le formulaire intégré à la page de connexion.
+● Le formulaire intégré à la page de connexion. ✔️
 
-● Le formulaire de connexion fonctionnel avec :
+● Le formulaire de connexion fonctionnel avec : 
 
 ○ Redirection vers la page d’accueil quand la connexion est
-confirmée.
+confirmée. ✔️
 
 ○ Un message d’erreur quand les informations utilisateur / mot de
-passe ne sont pas correctes.
+passe ne sont pas correctes. ✔️
 
 ● Pour réaliser cette étape, demandez-vous :
 
 ○ Quel type de requête me permet d’envoyer les valeurs des entrées
-de mon formulaire ?
+de mon formulaire ? méthode POST (lignes 15 et 16 de login.js) ✔️
 
 ○ Si la combinaison utilisateur - mot de passe est correcte, comment
 rediriger vers la page d’accueil et s’assurer que la configuration est
-maintenue ?
+maintenue ? 
+avec window.location.href ( ligne 36 de login.js) 
+et localStorage.setItem('token' (ligne 33 de login.js) ✔️
 
 ○ Si la combinaison est fausse, comment prévenir l’utilisateur ?
+affichage du message d'erreur dans un élément avec la classe 'error' 
+catch((error) => {
+        let elm = document.querySelector('.error');
+        elm.innerHTML = error.message;
+        elm.style.display = 'flex';
+( lignes 38 à 41 du login.js)  ✔️
 Point de vigilance :
 
 ● Pensez à stocker le token d'authentification pour pouvoir réaliser les
