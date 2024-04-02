@@ -206,3 +206,16 @@ const FiltreProjets = (e) => {
         // Sinon, afficher les projets correspondant à la catégorie sélectionnée
     }
 };
+
+// Sélection de l'élément de déconnexion
+const logoutButton = document.getElementById('logout');
+
+// Ajout d'un écouteur d'événement au clic sur le bouton de déconnexion
+logoutButton.addEventListener('click', () => {
+    // Supprimer le token d'authentification du stockage local
+    localStorage.removeItem('token');
+    localStorage.removeItem('isConnected');
+
+    // Rediriger l'utilisateur vers la page de connexion (ou toute autre page appropriée)
+    window.location.href = '../index.html';
+});
