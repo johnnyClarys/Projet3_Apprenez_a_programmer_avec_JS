@@ -1,5 +1,6 @@
-// Dynamic addition of works in the portfolio gallery of the page
-// Getting existing works from api
+
+//Ajout dynamique des œuvres dans la galerie de portfolio de la page
+//Récupération des œuvres existantes depuis l'API
 fetch("http://localhost:5678/api/works") 
 .then(function(response) {
 	if(response.ok) {
@@ -9,22 +10,22 @@ fetch("http://localhost:5678/api/works")
 .then(function(data) {
 	let works = data;
 	console.log(works);
-	// Looping on each work
+	// Bouclage sur chaque œuvre
 	works.forEach((work, index) => {
-		// Creation <figure>
+		// Création de <figure>
 		let myFigure = document.createElement('figure');
 		myFigure.setAttribute('class', `work-item category-id-0 category-id-${work.categoryId}`);
 		myFigure.setAttribute('id', `work-item-${work.id}`);
-		// Creation <img>
+		// Création de <img>
 		let myImg = document.createElement('img');
 		myImg.setAttribute('src', work.imageUrl);
 		myImg.setAttribute('alt', work.title);
 		myFigure.appendChild(myImg);
-		// Creation <figcaption>
+		// Création de <figcaption>
 		let myFigCaption = document.createElement('figcaption');
 		myFigCaption.textContent = work.title;
 		myFigure.appendChild(myFigCaption);
-		// Adding the new <figure> into the existing div.gallery
+		// Ajout de la nouvelle <figure> dans la div.gallery existante
 		document.querySelector("div.gallery").appendChild(myFigure);
 	});
 })
@@ -32,8 +33,8 @@ fetch("http://localhost:5678/api/works")
 	console.log(err);
 });
 
-// Adding filters of categories to filter work in the gallery
-// Getting existing categories from api
+// Ajout de filtres de catégories pour filtrer les œuvres dans la galerie
+// Récupération des catégories existantes depuis l'API
 fetch("http://localhost:5678/api/categories")
 .then(function(response) {
 	if(response.ok) {
@@ -44,26 +45,26 @@ fetch("http://localhost:5678/api/categories")
 	let categories = data;
 	categories.unshift({id: 0, name: 'Tous'});
 	console.log(categories);
-	// Looping on each category
+	// Bouclage sur chaque catégorie
 	categories.forEach((category, index) => {
-		// Creation <button> to filter
+		// Création de <button> pour filtrer
 		let myButton = document.createElement('button');
 		myButton.classList.add('work-filter');
 		myButton.classList.add('filters-design');
 		if(category.id === 0) myButton.classList.add('filter-active', 'filter-all');
 		myButton.setAttribute('data-filter', category.id);
 		myButton.textContent = category.name;
-		// Adding the new <button> into the existing div.filters
+		// Ajout du nouveau <button> dans la div.filters existante
 		document.querySelector("div.filters").appendChild(myButton);
-		// Click event <buttton> to filter
+		// Gestion de l'événement de clic sur <button> pour filtrer
 		myButton.addEventListener('click', function(event) {
 			event.preventDefault();
-			// Handling filters
+			// Gestion des filtres
 			document.querySelectorAll('.work-filter').forEach((workFilter) => {
 				workFilter.classList.remove('filter-active');
 			});
 			event.target.classList.add('filter-active');
-			// Handling works
+			// Gestion des œuvres
 			let categoryId = myButton.getAttribute('data-filter');
 			document.querySelectorAll('.work-item').forEach(workItem => {
 				workItem.style.display = 'none';
@@ -80,9 +81,9 @@ fetch("http://localhost:5678/api/categories")
 
 document.addEventListener('DOMContentLoaded', function() {
 
-	// Check if the token and userId are present in the localStorage
+	// Vérification si le token et userId sont présents dans le localStorage
 	if(localStorage.getItem('token') != null && localStorage.getItem('userId') != null) {
-		// Change the visual of the page in admin mode
+		// Changement de l'aspect visuel de la page en mode administrateur
 		document.querySelector('body').classList.add('connected');
 		let topBar = document.getElementById('top-bar');
 		topBar.style.display = "flex";
@@ -94,12 +95,12 @@ document.addEventListener('DOMContentLoaded', function() {
 		introduction.style.marginTop = "-50px";
 	}
 
-	// Click on logout to disconnect
+	// Clic sur déconnexion pour se déconnecter
 	document.getElementById('nav-logout').addEventListener('click', function(event) {
 		event.preventDefault();
 		localStorage.removeItem('userId');
 		localStorage.removeItem('token');
-		// Changing the page visual when the administrator is disconnected
+		// Changement de l'aspect visuel de la page lorsque l'administrateur est déconnecté
 		document.querySelector('body').classList.remove(`connected`);
 		let topBar = document.getElementById('top-bar');
 		topBar.style.display = "none";
@@ -109,10 +110,10 @@ document.addEventListener('DOMContentLoaded', function() {
 		space.style.paddingBottom = "0";
 	});
 
-	// Opening the modal with the "modify" button in admin mode, to view all the works
+	// Ouverture de la modal avec le bouton "modifier" en mode admin, pour visualiser toutes les œuvres
 	document.getElementById('update-works').addEventListener('click', function(event) {
 		event.preventDefault();
-		// New fetch to add all works in the work modal
+		// Nouvelle récupération pour ajouter toutes les œuvres dans la modalité de travail
 		fetch("http://localhost:5678/api/works")
 		.then(function(response) {
 			if(response.ok) {
@@ -121,40 +122,42 @@ document.addEventListener('DOMContentLoaded', function() {
 		})
 		.then(function(data) {
 			let works = data;
-			// Removing old works
+			// Suppression des anciennes œuvres
 			document.querySelector('#modal-works.modal-gallery .modal-content').innerText = '';
-			// Looping on each work
+			// Bouclage sur chaque œuvre
 			works.forEach((work, index) => {
-				// Creation <figure>
+				// Création de <figure>
 				let myFigure = document.createElement('figure');
 				myFigure.setAttribute('class', `work-item category-id-0 category-id-${work.categoryId}`);
 				myFigure.setAttribute('id', `work-item-popup-${work.id}`);
-				// Creation <img>
+				// Création de <img>
 				let myImg = document.createElement('img');
 				myImg.setAttribute('src', work.imageUrl);
 				myImg.setAttribute('alt', work.title);
 				myFigure.appendChild(myImg);
-				// Creation <figcaption>
+				// Création de <figcaption>
 				let myFigCaption = document.createElement('figcaption');
 				myFigCaption.textContent = 'éditer';
 				myFigure.appendChild(myFigCaption);
-				// Creation cross icon
+				// Création de l'icône de croix
 				let crossDragDrop = document.createElement('i');
 				crossDragDrop.classList.add('fa-solid','fa-arrows-up-down-left-right', 'cross');
 				myFigure.appendChild(crossDragDrop);
-				// Creation trash icon
+				// Création de l'icône de poubelle
 				let trashIcon = document.createElement('i');
 				trashIcon.classList.add('fa-solid', 'fa-trash-can', 'trash');
 				myFigure.appendChild(trashIcon);
-				// Handling delete
+				// Gestion de la suppression
 				trashIcon.addEventListener('click', function(event) {
 					event.preventDefault();
 					if(confirm("Voulez-vous supprimer cet élément ?")) {
-						// Fetch to delete work in the work modal and in the portfolio gallery of the page
+						// Récupération pour supprimer le travail dans la modalité de travail et dans la galerie de portfolio de la page
 						fetch(`http://localhost:5678/api/works/${work.id}`, {
 							method: 'DELETE',
 							headers: {
 								'Content-Type': 'application/json',
+
+
 								'Authorization': 'Bearer ' + localStorage.getItem('token')
 							}
 						})
@@ -170,10 +173,10 @@ document.addEventListener('DOMContentLoaded', function() {
 								case 200:
 								case 204:
 									console.log("Projet supprimé.");
-									// Deleting work from the page
+									// Suppression du travail de la page
 									document.getElementById(`work-item-${work.id}`).remove();
 									console.log(`work-item-${work.id}`);
-									// Deleting work from the popup
+									// Suppression du travail de la popup
 									document.getElementById(`work-item-popup-${work.id}`).remove();
 									console.log(`work-item-popup-${work.id}`);
 								break;
@@ -187,9 +190,9 @@ document.addEventListener('DOMContentLoaded', function() {
 						});
 					}
 				});
-				// Adding the new <figure> into the existing div.modal-content
+				// Ajout de la nouvelle <figure> dans le contenu modal existant
 				document.querySelector("div.modal-content").appendChild(myFigure);
-				// Opening work modal 
+				// Ouverture de la modalité de travail
 				let modal = document.getElementById('modal');
 				modal.style.display = "flex";
 				let modalWorks = document.getElementById('modal-works');
@@ -201,18 +204,18 @@ document.addEventListener('DOMContentLoaded', function() {
 		});
 	});
 
-	// Handling modal closure when clicking outside
-	// The work modal cannot close if you click inside its contents
+	// Gestion de la fermeture de la modalité en cliquant à l'extérieur
+	// La modalité de travail ne peut pas se fermer si vous cliquez à l'intérieur de son contenu
 	document.querySelectorAll('#modal-works').forEach(modalWorks => {
 		modalWorks.addEventListener('click', function(event) {
 			event.stopPropagation();
 		});
-		// The edit modal cannot close if you click inside its contents
+		// La modalité de modification ne peut pas se fermer si vous cliquez à l'intérieur de son contenu
 		document.querySelectorAll('#modal-edit').forEach(modalEdit => {
 			modalEdit.addEventListener('click', function(event) {
 				event.stopPropagation();
 			});
-			// Closing both modal windows with a click outside
+			// Fermeture des deux fenêtres modales avec un clic à l'extérieur
 			document.getElementById('modal').addEventListener('click', function(event) {
 				event.preventDefault();
 				let modal = document.getElementById('modal');
@@ -221,12 +224,12 @@ document.addEventListener('DOMContentLoaded', function() {
 				modalWorks.style.display = "none";
 				let modalEdit = document.getElementById('modal-edit');
 				modalEdit.style.display = "none";
-				// Reset all form in the modal edit 
-				// Delete image if existing
+				// Réinitialisation de tous les formulaires dans la modalité de modification
+				// Supprimer l'image si elle existe
 				if(document.getElementById('form-image-preview') != null) {
 					document.getElementById('form-image-preview').remove();
 				}
-				// Return to original form design
+				// Retour au design de formulaire d'origine
 				document.getElementById('modal-edit-work-form').reset();	
 				let iconNewPhoto = document.getElementById('photo-add-icon');
 				iconNewPhoto.style.display= "block";
@@ -241,7 +244,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		});
 	});
 
-	// Closing first window of modal with button "x"
+	// Fermeture de la première fenêtre modale avec le bouton "x"
 	document.getElementById('button-to-close-first-window').addEventListener('click', function(event) {
 		event.preventDefault();
 		let modal = document.getElementById('modal');
@@ -250,19 +253,19 @@ document.addEventListener('DOMContentLoaded', function() {
 		modalWorks.style.display = "none";
 	});
 
-	// Closing second window of modal with button "x"
+	// Fermeture de la deuxième fenêtre modale avec le bouton "x"
 	document.getElementById('button-to-close-second-window').addEventListener('click', function(event) {
 		event.preventDefault();
 		let modal = document.getElementById('modal');
 		modal.style.display = "none";
 		let modalEdit = document.getElementById('modal-edit');
 		modalEdit.style.display = "none";
-		// Reset all form in the modal edit 
-		// Delete image if existing
+		// Réinitialisation de tous les formulaires dans la modalité de modification
+		// Supprimer l'image si elle existe
 		if(document.getElementById('form-image-preview') != null) {
 			document.getElementById('form-image-preview').remove();
 		}
-		// Return to original form design
+		// Retour au design de formulaire d'origine
 		document.getElementById('modal-edit-work-form').reset();
 		let iconNewPhoto = document.getElementById('photo-add-icon');
 		iconNewPhoto.style.display= "block";
@@ -275,7 +278,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		document.getElementById('submit-new-work').style.backgroundColor= "#A7A7A7";
 	});
 
-	// Opening second window of modal with button "Ajouter photo"
+	// Ouverture de la deuxième fenêtre modale avec le bouton "Ajouter photo"
 	document.getElementById('modal-edit-add').addEventListener('click', function(event) {
 		event.preventDefault();
 		let modalWorks = document.getElementById('modal-works');
@@ -284,19 +287,19 @@ document.addEventListener('DOMContentLoaded', function() {
 		modalEdit.style.display = "block";
 	});
 
-	// Return first window of modal with arrow
+	// Retour à la première fenêtre modale avec la flèche
 	document.getElementById('arrow-return').addEventListener('click', function(event) {
 		event.preventDefault();
 		let modalWorks = document.getElementById('modal-works');
 		modalWorks.style.display = "block";
 		let modalEdit = document.getElementById('modal-edit');
 		modalEdit.style.display = "none";
-		// Reset all form in the modal edit 
-		// Delete image if existing
+		// Réinitialisation de tous les formulaires dans la modalité de modification
+		// Supprimer l'image si elle existe
 		if(document.getElementById('form-image-preview') != null) {
 			document.getElementById('form-image-preview').remove();
 		}
-		// Return to original form design
+		// Retour au design de formulaire d'origine
 		document.getElementById('modal-edit-work-form').reset();
 		let iconNewPhoto = document.getElementById('photo-add-icon');
 		iconNewPhoto.style.display= "block";
@@ -309,22 +312,24 @@ document.addEventListener('DOMContentLoaded', function() {
 		document.getElementById('submit-new-work').style.backgroundColor= "#A7A7A7";
 	});
 	
-	// Fetch to add category options in modal edit
+	// Récupération pour ajouter des options de catégorie dans la modalité de modification
 	fetch("http://localhost:5678/api/categories")
 		.then(function(response) {
 			if(response.ok) {
-				return response.json();
+			
+
+	return response.json();
 			}
 		})
 		.then(function(data) {
 			let categories = data;
-			// Looping on each categories
+			// Boucle sur chaque catégories
 			categories.forEach((category, index) => {
-			// Creation <options> in modal edit
+			// Création de <options> dans la modalité de modification
 			let myOption = document.createElement('option');
 			myOption.setAttribute('value', category.id);
 			myOption.textContent = category.name;
-			// Adding the new <option> into the existing select.choice-category
+			// Ajout de la nouvelle <option> dans le select.choice-category existant
 			document.querySelector("select.choice-category").appendChild(myOption);
 			});
 		})
@@ -332,14 +337,14 @@ document.addEventListener('DOMContentLoaded', function() {
 			console.log(err);
 		});
 
-	// Handling form
+	// Gestion de formulaire
 	document.getElementById('modal-edit-work-form').addEventListener('submit', function(event) {
 		event.preventDefault();
 		let formData = new FormData();
 		formData.append('title', document.getElementById('form-title').value);
 		formData.append('category', document.getElementById('form-category').value);
 		formData.append('image', document.getElementById('form-image').files[0]);
-		// New fetch to post new work
+		// Nouveau fetch pour poster un nouveau travail
 		fetch('http://localhost:5678/api/works', {
 			method: 'POST',
 			headers: {
@@ -369,33 +374,33 @@ document.addEventListener('DOMContentLoaded', function() {
 		})
 		.then(function(json) {
 			console.log(json);
-			// Creating HTML element
-			// Creation <figure>
+			// Création de l'élément HTML
+			// Création de <figure>
 			let myFigure = document.createElement('figure');
 			myFigure.setAttribute('class', `work-item category-id-0 category-id-${json.categoryId}`);
 			myFigure.setAttribute('id', `work-item-${json.id}`);
-			// Creation <img>
+			// Création de <img>
 			let myImg = document.createElement('img');
 			myImg.setAttribute('src', json.imageUrl);
 			myImg.setAttribute('alt', json.title);
 			myFigure.appendChild(myImg);
-			// Creation <figcaption>
+			// Création de <figcaption>
 			let myFigCaption = document.createElement('figcaption');
 			myFigCaption.textContent = json.title;
 			myFigure.appendChild(myFigCaption);
-			// Adding the new <figure> into the existing div.gallery
+			// Ajout de la nouvelle <figure> dans la div.gallery existante
 			document.querySelector("div.gallery").appendChild(myFigure);
-			// Close edit modal
+			// Fermeture de la modalité de modification
 			let modal = document.getElementById('modal');
 			modal.style.display = "none";
 			let modalEdit = document.getElementById('modal-edit');
 			modalEdit.style.display = "none";
-			// Reset all form in the modal edit 
-			// Delete image if existing
+			// Réinitialisation de tous les formulaires dans la modalité de modification
+			// Supprimer l'image si elle existe
 			if(document.getElementById('form-image-preview') != null) {
 				document.getElementById('form-image-preview').remove();
 			}
-			// Return to original form design
+			// Retour au design de formulaire d'origine
 			document.getElementById('modal-edit-work-form').reset();
 			let iconNewPhoto = document.getElementById('photo-add-icon');
 			iconNewPhoto.style.display= "block";
@@ -412,17 +417,17 @@ document.addEventListener('DOMContentLoaded', function() {
 		});
 	});
 
-	// Check the size of the image file
+	// Vérification de la taille du fichier image
 	document.getElementById('form-image').addEventListener('change', () => {
 		let fileInput = document.getElementById('form-image');
-		const maxFileSize = 4 * 1024 * 1024; // 4MB
+		const maxFileSize = 4 * 1024 * 1024; // 4Mo
 		if(fileInput.files[0].size > maxFileSize) {
 			alert("Le fichier sélectionné est trop volumineux. La taille maximale est de 4 Mo.");
 			document.getElementById('form-image').value = '';
 		}
 		else {
 			if(fileInput.files.length > 0) {
-            	// Creation of the image preview
+            	// Création de l'aperçu de l'image
 				let myPreviewImage = document.createElement('img');
 				myPreviewImage.setAttribute('id','form-image-preview');
 				myPreviewImage.src = URL.createObjectURL(fileInput.files[0]);
@@ -441,12 +446,12 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	});
 
-	// Binder the checkNewProjectFields() function on the 3 fields by listening to the "input" events
+	// Liaison de la fonction checkNewProjectFields() sur les 3 champs en écoutant les événements "input"
 	document.getElementById('form-title').addEventListener('input', checkNewProjectFields);
 	document.getElementById('form-category').addEventListener('input', checkNewProjectFields);
 	document.getElementById('form-image').addEventListener('input', checkNewProjectFields);
 
-	// Creation of the checkNewProjectFields() function that checks the image + title + category fields
+	// Création de la fonction checkNewProjectFields() qui vérifie les champs image + titre + catégorie
 	function checkNewProjectFields() {
 		let title = document.getElementById('form-title');
 		let category = document.getElementById('form-category');
