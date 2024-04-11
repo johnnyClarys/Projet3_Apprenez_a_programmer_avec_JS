@@ -57,7 +57,7 @@ table {
 
 body {
 	line-height: 1;
-	max-width: 1440px;
+	
 	margin: auto;
 	font-family: 'Work Sans';
 	font-style: normal;
@@ -428,7 +428,7 @@ body.connected .only-admin {
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
-	width: 100%;
+	width: auto;
 	height: 60px;
 	background-color: #000000;
 	display: none;
